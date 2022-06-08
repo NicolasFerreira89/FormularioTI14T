@@ -25,6 +25,16 @@ namespace PessoaTI14T
 
         }
 
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void Cadastrar_Click(object sender, EventArgs e)
         {
             try 
@@ -32,7 +42,7 @@ namespace PessoaTI14T
                 // int codigo = Convert.ToInt32(textBox1.Text);
                   string tratamentoCPF = maskedTextBox1.Text.Replace(",", "");
                   tratamentoCPF.Replace("-", "");                
-                  long cpf = Convert.ToInt64(tratamentoCPF);
+                  long cpf = Convert.ToInt64(tratamentoCPF); 
                   string nome = textBox3.Text;
                   string telefone = maskedTextBox2.Text;
                   string endereco = textBox2.Text;
@@ -46,7 +56,10 @@ namespace PessoaTI14T
 
         private void Consultar_Click(object sender, EventArgs e)
         {
-
+            maskedTextBox1.Text = "" + formulario.ConsultarCPF(Convert.ToInt32(textBox1.Text)); // PREENCHENDO O CAMPO CPF \\
+            textBox3.Text = formulario.ConsultarNome(Convert.ToInt32(textBox1.Text));
+            maskedTextBox2.Text = formulario.ConsultarTelefone(Convert.ToInt32(textBox1.Text));
+            textBox2.Text = formulario.ConsultarEndereco(Convert.ToInt32(textBox1.Text));
 
         } // FIM DO BOTAO CONSULTAR \\
 
@@ -96,5 +109,6 @@ namespace PessoaTI14T
 
 
         } // TEXT BOX DE ENDEREÇO \\
+
     } // FIM DA CLASSE \\
 } // FIM DO PROJETO \\

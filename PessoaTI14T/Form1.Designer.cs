@@ -151,7 +151,7 @@ namespace PessoaTI14T
             // maskedTextBox2
             // 
             this.maskedTextBox2.Location = new System.Drawing.Point(273, 182);
-            this.maskedTextBox2.Mask = "+99 (99) 99999-9999";
+            this.maskedTextBox2.Mask = " (99) 99999-9999";
             this.maskedTextBox2.Name = "maskedTextBox2";
             this.maskedTextBox2.Size = new System.Drawing.Size(244, 20);
             this.maskedTextBox2.TabIndex = 11;

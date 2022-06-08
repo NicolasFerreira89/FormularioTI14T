@@ -16,6 +16,15 @@ namespace PessoaTI14T
         public string dados;
         public string comando;
         public string resultado;
+        // vV--VETORES--Vv \\
+        public int[] vetorCodigo;
+        public long[] vetorCPF;
+        public string[] vetorNome;
+        public string[] vetorTelefone;
+        public string[] vetorEndereco;
+        public int contador;
+        public int i;
+        public string msg;
         public DAOPessoa()
         {
             conexao = new MySqlConnection("server=localhost;DataBase=turma14;Uid=root;password=");
@@ -36,7 +45,7 @@ namespace PessoaTI14T
             try
             {
                 dados = "('','" + cpf + "','" + nome + "','" + telefone + "','" + endereco + "')";
-                comando = "Insert into Formulario(codigo, cpf, nome, telefone, endereco) values " + dados;
+                comando = "insert into Formulario(codigo, cpf, nome, telefone, endereco) values  " + dados;
                 MySqlCommand sql = new MySqlCommand(comando, conexao);
                 resultado = "" + sql.ExecuteNonQuery();
                 MessageBox.Show(resultado + "Linha Afetada.");
@@ -47,5 +56,154 @@ namespace PessoaTI14T
             }
         } // FIM DO METODO INSERIR \\
 
+        public void PreencherVetor()
+        {
+            string query = "select * from Formulario";
+
+            vetorCodigo = new int[100];
+            vetorCPF = new long[100];
+            vetorNome = new string[100];
+            vetorTelefone = new string[100];
+            vetorEndereco = new string[100];
+
+            for(i= 0; i < 100; i++)
+            {
+                vetorCodigo[i] = 0;
+                vetorCPF[i] = 0;
+                vetorNome[i] = "";
+                vetorTelefone[i]  = "";
+                vetorEndereco[i] = "";
+
+            } // FIM DO FOR \\
+
+            MySqlCommand coletar = new MySqlCommand(query, conexao);
+            MySqlDataReader leitura = coletar.ExecuteReader();
+
+            i = 0; // DECLARAÇAO DO CONTADOR 0 \\
+            contador = 0;
+            while (leitura.Read())
+            {
+                vetorCodigo[i] = Convert.ToInt32(leitura["codigo"]); // ENQUANTO FOR VERDADEIRO EXECUTA OQUE ESTA NO WHILE \\
+                vetorCPF[i] = Convert.ToInt64(leitura["cpf"]);
+                vetorNome[i] = leitura["nome"] + "";
+                vetorTelefone[i] = leitura["telefone"] + "";
+                vetorEndereco[i] = leitura["endereco"] + "";
+                i++;
+                contador++;
+            }
+
+            leitura.Close(); // FECHAR A  CONEXAO E A LEITURA DO BD \\
+        } // FIM DO PREENCHER VETOR \\
+
+        public string ConsultarTudo()
+        {
+            PreencherVetor();
+            msg += "";
+            for(i= 0; i < contador; i++)
+            {
+                msg = "Código: " + vetorCodigo[i] +
+                      "CPF: " + vetorCPF[i] +
+                      "Nome: " + vetorNome[i] +
+                      "Telefone: " + vetorTelefone[i] +
+                      "Endereço: " + vetorEndereco[i] +
+                      "\n\n";
+            }
+
+            return msg; // RETORNA OS DADOS ARMAZENADOS NA "msg" \\
+        } // FIM DO CONSULTAR TUDO \\
+
+        public long ConsultarCPF(int cod)
+        {
+            PreencherVetor();
+
+            for(i = 0; i < contador; i++)
+            {
+                if (vetorCodigo[i] == cod)
+                {
+                    return vetorCPF[i];
+                }
+            }
+
+            return -1;
+
+        }
+        // FIM DO CONSULTAR CPF \\
+
+        public string ConsultarNome(int cod)
+        {
+            PreencherVetor();
+
+            for( i = 0; i < contador; i++)
+            {
+                if(vetorCodigo[i] == cod)
+                {
+                    return vetorNome[i];
+                }
+            }
+
+            return "Nome não encontrado.";
+
+        } // FIM DO CONSULTAR NOME \\
+
+        public string ConsultarTelefone(int cod)
+        {
+            PreencherVetor();
+            for(i = 0; i < contador; i++)
+            {
+                if(vetorCodigo[i] == cod)
+                {
+                    return vetorTelefone[i];
+                }
+            }
+
+            return "Telefone não encontrado.";
+
+        }
+
+        public string ConsultarEndereco(int cod)
+        {
+            PreencherVetor();
+            for(i = 0; i < contador; i++)
+            {
+                if(vetorCodigo[i] == cod)
+                {
+                    return vetorEndereco[i];
+                } 
+            }
+
+            return "Endereço não encontrado.";
+
+        }
+
+        public void Atualizar(int cod, string campo, string novoDado)
+        {
+            try
+            {
+                string query = "update Formulario set " + campo + " = '" + novoDado + "' where codigo = '" + cod + "'";
+
+                MySqlCommand sql  = new MySqlCommand(query, conexao);
+                string resultado = "" + sql.ExecuteNonQuery();
+                MessageBox.Show(resultado + "Linha Afetada.");
+            }
+            catch(Exception erro)
+            {
+                MessageBox.Show("" + erro);
+            }
+        }
+
+        public void Deletar(int cod)
+        {
+            try
+            {
+                string query = "delete from Formulario where codigo = '" + cod + "'";
+                MySqlCommand sql = new MySqlCommand(query, conexao);
+                string resultado = "" + sql.ExecuteNonQuery();
+                MessageBox.Show(resultado + "Linha Afetada.");
+            }
+            catch (Exception erro)
+            {
+                MessageBox.Show("" + erro);
+            }
+        }
     } // FIM DA CLASSE \\
 } // FIM DO PROJETO \\

@@ -13,7 +13,6 @@ C:\Users\nicolas.sferreira5\source\repos\PessoaTI14T\PessoaTI14T\bin\Debug\K4os.
 C:\Users\nicolas.sferreira5\source\repos\PessoaTI14T\PessoaTI14T\bin\Debug\K4os.Hash.xxHash.dll
 C:\Users\nicolas.sferreira5\source\repos\PessoaTI14T\PessoaTI14T\bin\Debug\System.Numerics.Vectors.dll
 C:\Users\nicolas.sferreira5\source\repos\PessoaTI14T\PessoaTI14T\bin\Debug\MySql.Data.xml
-C:\Users\nicolas.sferreira5\source\repos\PessoaTI14T\PessoaTI14T\obj\Debug\PessoaTI14T.csproj.AssemblyReference.cache
 C:\Users\nicolas.sferreira5\source\repos\PessoaTI14T\PessoaTI14T\obj\Debug\PessoaTI14T.exe.config
 C:\Users\nicolas.sferreira5\source\repos\PessoaTI14T\PessoaTI14T\obj\Debug\PessoaTI14T.Form1.resources
 C:\Users\nicolas.sferreira5\source\repos\PessoaTI14T\PessoaTI14T\obj\Debug\PessoaTI14T.Properties.Resources.resources
@@ -22,3 +21,4 @@ C:\Users\nicolas.sferreira5\source\repos\PessoaTI14T\PessoaTI14T\obj\Debug\Pesso
 C:\Users\nicolas.sferreira5\source\repos\PessoaTI14T\PessoaTI14T\obj\Debug\PessoaTI14T.csproj.CopyComplete
 C:\Users\nicolas.sferreira5\source\repos\PessoaTI14T\PessoaTI14T\obj\Debug\PessoaTI14T.exe
 C:\Users\nicolas.sferreira5\source\repos\PessoaTI14T\PessoaTI14T\obj\Debug\PessoaTI14T.pdb
+C:\Users\nicolas.sferreira5\source\repos\PessoaTI14T\PessoaTI14T\obj\Debug\PessoaTI14T.csproj.AssemblyReference.cache
