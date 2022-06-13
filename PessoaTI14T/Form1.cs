@@ -16,8 +16,9 @@ namespace PessoaTI14T
         public Form1()
         {
             InitializeComponent();
-
             formulario = new DAOPessoa(); // ABRINDO A CONEXAO COM O BD \\
+            textBox1.Text = Convert.ToString(formulario.ConsultarCodigo() + 1);
+            textBox1.ReadOnly = true;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -35,18 +36,50 @@ namespace PessoaTI14T
 
         }
 
+        public void Limpar()
+        {
+            textBox1.Text = "" + formulario.ConsultarCodigo();
+            maskedTextBox1.Text = "";
+            textBox2.Text = "";
+            textBox3.Text = "";
+            maskedTextBox2.Text = "";
+        }
+
+        public void AtivarCampos()
+        {
+                textBox1.ReadOnly = false; // CODIGO \\
+                maskedTextBox1.ReadOnly = true; // CPF \\
+                textBox2.ReadOnly = true; // NOME \\
+                maskedTextBox2.ReadOnly = true; // TELEFONE \\
+                textBox3.ReadOnly = true; // ENDEREÇO \\
+        }
+        public void InativarCampos()
+        {
+            textBox1.ReadOnly = true; // CODIGO \\
+            maskedTextBox1.ReadOnly = false; // CPF \\
+            textBox2.ReadOnly = false; // NOME \\
+            maskedTextBox2.ReadOnly = false; // TELEFONE \\
+            textBox3.ReadOnly = false; // ENDEREÇO \\
+        }
         private void Cadastrar_Click(object sender, EventArgs e)
         {
             try 
             {
-                // int codigo = Convert.ToInt32(textBox1.Text);
-                  string tratamentoCPF = maskedTextBox1.Text.Replace(",", "");
-                  tratamentoCPF.Replace("-", "");                
-                  long cpf = Convert.ToInt64(tratamentoCPF); 
-                  string nome = textBox3.Text;
-                  string telefone = maskedTextBox2.Text;
-                  string endereco = textBox2.Text;
-                  formulario.Inserir(cpf, nome, telefone, endereco);
+                if(textBox1.ReadOnly == false)
+                {
+                    Limpar();
+                    InativarCampos();
+                }
+
+                else 
+                { 
+                    long cpf = TratarCPF(maskedTextBox1.Text);
+                    string nome = textBox3.Text;
+                    string telefone = maskedTextBox2.Text;
+                    string endereco = textBox2.Text;
+                    formulario.Inserir(cpf, nome, telefone, endereco);
+                    Limpar(); // LIMPA OS CAMPOS \\
+                }            
             }
             catch(Exception erro)
             {
@@ -54,18 +87,48 @@ namespace PessoaTI14T
             }
         } // FIM DO BOTAO CADASTRAR \\
 
+        public long TratarCPF(string cpf)
+        {
+            string tratamento = cpf.Replace(",", "");
+            tratamento = tratamento.Replace("-", "");
+            return Convert.ToInt64(tratamento);
+        }
+
         private void Consultar_Click(object sender, EventArgs e)
         {
-            maskedTextBox1.Text = "" + formulario.ConsultarCPF(Convert.ToInt32(textBox1.Text)); // PREENCHENDO O CAMPO CPF \\
-            textBox3.Text = formulario.ConsultarNome(Convert.ToInt32(textBox1.Text));
-            maskedTextBox2.Text = formulario.ConsultarTelefone(Convert.ToInt32(textBox1.Text));
-            textBox2.Text = formulario.ConsultarEndereco(Convert.ToInt32(textBox1.Text));
+            if(textBox1.ReadOnly == true)
+            {
+                AtivarCampos();
+            }
 
+            else
+            {
+                maskedTextBox1.Text = "" + formulario.ConsultarCPF(Convert.ToInt32(textBox1.Text)); // PREENCHENDO O CAMPO CPF \\
+                textBox3.Text = formulario.ConsultarNome(Convert.ToInt32(textBox1.Text));
+                maskedTextBox2.Text = formulario.ConsultarTelefone(Convert.ToInt32(textBox1.Text));
+                textBox2.Text = formulario.ConsultarEndereco(Convert.ToInt32(textBox1.Text));
+            }
         } // FIM DO BOTAO CONSULTAR \\
 
         private void Atualizar_Click(object sender, EventArgs e)
         {
+            if(textBox3.Text == "") 
+            { 
+                maskedTextBox1.Text = "" + formulario.ConsultarCPF(Convert.ToInt32(textBox1.Text)); 
+                textBox3.Text = formulario.ConsultarNome(Convert.ToInt32(textBox1.Text));
+                maskedTextBox2.Text = formulario.ConsultarTelefone(Convert.ToInt32(textBox1.Text));
+                textBox2.Text = formulario.ConsultarEndereco(Convert.ToInt32(textBox1.Text));
+            }
 
+            else
+            {
+                                        // ATUALIZAR DADOS \\
+                formulario.Atualizar(Convert.ToInt32(textBox1.Text), "CPF", TratarCPF(maskedTextBox1.Text));
+                formulario.Atualizar(Convert.ToInt32(textBox1.Text), "nome", textBox3.Text);
+                formulario.Atualizar(Convert.ToInt32(textBox1.Text), "telefone", maskedTextBox2.Text);
+                formulario.Atualizar(Convert.ToInt32(textBox1.Text), "endereco", textBox2.Text);
+                Limpar();
+            }
 
         }// FIM DO BOTAO ATUALIZAR \\
 
@@ -73,8 +136,8 @@ namespace PessoaTI14T
 
         private void Excluir_Click(object sender, EventArgs e)
         {
-
-
+            formulario.Deletar(Convert.ToInt32(textBox1.Text));
+            Limpar();
         }// FIM DO BOTAO EXCLUIR \\
 
         
@@ -82,8 +145,7 @@ namespace PessoaTI14T
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
-
+           
         } // TEXT BOX DE CODIGO \\
 
         private void maskedTextBox1_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)

@@ -25,6 +25,7 @@ namespace PessoaTI14T
         public int contador;
         public int i;
         public string msg;
+        public int contarCodigo;
         public DAOPessoa()
         {
             conexao = new MySqlConnection("server=localhost;DataBase=turma14;Uid=root;password=");
@@ -81,6 +82,7 @@ namespace PessoaTI14T
 
             i = 0; // DECLARAÇAO DO CONTADOR 0 \\
             contador = 0;
+            contarCodigo = 0;
             while (leitura.Read())
             {
                 vetorCodigo[i] = Convert.ToInt32(leitura["codigo"]); // ENQUANTO FOR VERDADEIRO EXECUTA OQUE ESTA NO WHILE \\
@@ -88,6 +90,7 @@ namespace PessoaTI14T
                 vetorNome[i] = leitura["nome"] + "";
                 vetorTelefone[i] = leitura["telefone"] + "";
                 vetorEndereco[i] = leitura["endereco"] + "";
+                contarCodigo = contador; // ARMAZENANDO A ULTIMA POSIÇAO DO CONTADOR \\
                 i++;
                 contador++;
             }
@@ -128,6 +131,13 @@ namespace PessoaTI14T
 
         }
         // FIM DO CONSULTAR CPF \\
+
+        public int ConsultarCodigo()
+        {
+            PreencherVetor();
+            return vetorCodigo[contarCodigo];
+
+        } // FIM DO CONSULTAR CODIGO \\
 
         public string ConsultarNome(int cod)
         {
@@ -196,6 +206,22 @@ namespace PessoaTI14T
             try
             {
                 string query = "delete from Formulario where codigo = '" + cod + "'";
+                MySqlCommand sql = new MySqlCommand(query, conexao);
+                string resultado = "" + sql.ExecuteNonQuery();
+                MessageBox.Show(resultado + "Linha Afetada.");
+            }
+            catch (Exception erro)
+            {
+                MessageBox.Show("" + erro);
+            }
+        }
+
+        public void Atualizar(int cod, string campo, long novoDado)
+        {
+            try
+            {
+                string query = "update Formulario set " + campo + " = '" + novoDado + "' where codigo = '" + cod + "'";
+
                 MySqlCommand sql = new MySqlCommand(query, conexao);
                 string resultado = "" + sql.ExecuteNonQuery();
                 MessageBox.Show(resultado + "Linha Afetada.");
