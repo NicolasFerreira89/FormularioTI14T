@@ -32,7 +32,7 @@ namespace PessoaTI14T
             try
             {
                 conexao.Open(); // TENTANDO CONECTAR AO BD \\
-                MessageBox.Show("Conectado com Sucesso!");
+   
             }
             catch(Exception erro)
             {
@@ -49,7 +49,15 @@ namespace PessoaTI14T
                 comando = "insert into Formulario(codigo, cpf, nome, telefone, endereco) values  " + dados;
                 MySqlCommand sql = new MySqlCommand(comando, conexao);
                 resultado = "" + sql.ExecuteNonQuery();
-                MessageBox.Show(resultado + "Linha Afetada.");
+
+                if(resultado == "1")
+                {
+                    MessageBox.Show(resultado + "Cadastrado com Sucesso!");
+                }
+                else
+                {
+                    MessageBox.Show("Não Cadastrado!");
+                }
             }
             catch(Exception erro)
             {
@@ -185,7 +193,7 @@ namespace PessoaTI14T
 
         }
 
-        public void Atualizar(int cod, string campo, string novoDado)
+        public string Atualizar(int cod, string campo, string novoDado)
         {
             try
             {
@@ -193,12 +201,19 @@ namespace PessoaTI14T
 
                 MySqlCommand sql  = new MySqlCommand(query, conexao);
                 string resultado = "" + sql.ExecuteNonQuery();
-                MessageBox.Show(resultado + "Linha Afetada.");
+
+                if(resultado == "1")
+                {
+                    return "Atualizado!";
+                }
+
             }
             catch(Exception erro)
             {
                 MessageBox.Show("" + erro);
             }
+
+            return "Não Atualizado!";
         }
 
         public void Deletar(int cod)
@@ -208,7 +223,15 @@ namespace PessoaTI14T
                 string query = "delete from Formulario where codigo = '" + cod + "'";
                 MySqlCommand sql = new MySqlCommand(query, conexao);
                 string resultado = "" + sql.ExecuteNonQuery();
-                MessageBox.Show(resultado + "Linha Afetada.");
+
+                if(resultado == "1")
+                {
+                    MessageBox.Show(resultado + "Usuário Excluído!");
+                }
+                else
+                {
+                    MessageBox.Show("Falha ao Excluir!");
+                }
             }
             catch (Exception erro)
             {
@@ -216,7 +239,7 @@ namespace PessoaTI14T
             }
         }
 
-        public void Atualizar(int cod, string campo, long novoDado)
+        public string Atualizar(int cod, string campo, long novoDado)
         {
             try
             {
@@ -224,12 +247,18 @@ namespace PessoaTI14T
 
                 MySqlCommand sql = new MySqlCommand(query, conexao);
                 string resultado = "" + sql.ExecuteNonQuery();
-                MessageBox.Show(resultado + "Linha Afetada.");
+
+                if(resultado == "1")
+                {
+                    return "Atualizado!";
+                }
             }
             catch (Exception erro)
             {
                 MessageBox.Show("" + erro);
             }
+
+            return "Não Atualizado!";
         }
     } // FIM DA CLASSE \\
 } // FIM DO PROJETO \\

@@ -61,6 +61,16 @@ namespace PessoaTI14T
             maskedTextBox2.ReadOnly = false; // TELEFONE \\
             textBox3.ReadOnly = false; // ENDEREÇO \\
         }
+
+        public void AtivarTodosCampos()
+        {
+            textBox1.ReadOnly = false; // CODIGO \\
+            maskedTextBox1.ReadOnly = false; // CPF \\
+            textBox2.ReadOnly = false; // NOME \\
+            maskedTextBox2.ReadOnly = false; // TELEFONE \\
+            textBox3.ReadOnly = false; // ENDEREÇO \\
+        }
+
         private void Cadastrar_Click(object sender, EventArgs e)
         {
             try 
@@ -112,6 +122,8 @@ namespace PessoaTI14T
 
         private void Atualizar_Click(object sender, EventArgs e)
         {
+            AtivarTodosCampos();
+
             if(textBox3.Text == "") 
             { 
                 maskedTextBox1.Text = "" + formulario.ConsultarCPF(Convert.ToInt32(textBox1.Text)); 
@@ -123,21 +135,35 @@ namespace PessoaTI14T
             else
             {
                                         // ATUALIZAR DADOS \\
-                formulario.Atualizar(Convert.ToInt32(textBox1.Text), "CPF", TratarCPF(maskedTextBox1.Text));
-                formulario.Atualizar(Convert.ToInt32(textBox1.Text), "nome", textBox3.Text);
-                formulario.Atualizar(Convert.ToInt32(textBox1.Text), "telefone", maskedTextBox2.Text);
-                formulario.Atualizar(Convert.ToInt32(textBox1.Text), "endereco", textBox2.Text);
-                Limpar();
+               string atuCPF = formulario.Atualizar(Convert.ToInt32(textBox1.Text), "CPF", TratarCPF(maskedTextBox1.Text));
+               string atuNome = formulario.Atualizar(Convert.ToInt32(textBox1.Text), "nome", textBox3.Text);
+               string atuTelefone = formulario.Atualizar(Convert.ToInt32(textBox1.Text), "telefone", maskedTextBox2.Text);
+               string atuEndereco = formulario.Atualizar(Convert.ToInt32(textBox1.Text), "endereco", textBox2.Text);
+
+                if((atuCPF == "Atualizado!") && (atuNome == "Atualizado!") && (atuTelefone == "Atualizado!") && (atuEndereco == "Atualizado!"))
+                {
+                    MessageBox.Show("Atualizado com Sucesso!");
+                }
+
+                else
+                {
+                    MessageBox.Show("Não Atualizado!");
+                }
+
+               Limpar();
+
             }
-
+            
         }// FIM DO BOTAO ATUALIZAR \\
-
-
 
         private void Excluir_Click(object sender, EventArgs e)
         {
+            AtivarCampos();
+
             formulario.Deletar(Convert.ToInt32(textBox1.Text));
+
             Limpar();
+
         }// FIM DO BOTAO EXCLUIR \\
 
         
